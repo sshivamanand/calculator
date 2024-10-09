@@ -1,26 +1,4 @@
 let expression = "";
-const buttonValues = [
-  null,
-  null,
-  "(",
-  ")",
-  "÷",
-  "7",
-  "8",
-  "9",
-  "x",
-  "4",
-  "5",
-  "6",
-  "+",
-  "1",
-  "2",
-  "3",
-  "-",
-  "0",
-  ".",
-  "=",
-];
 
 $(document).ready(() => {
   function evaluate() {
@@ -42,7 +20,7 @@ $(document).ready(() => {
       if (arr[i] === "(") {
         if (
           arr[i - 1] !== "+" &&
-          arr[i - 1] !== "-" &&
+          arr[i - 1] !== "-" && 
           arr[i - 1] !== "*" &&
           arr[i - 1] !== "/" &&
           arr[i - 1] !== "("
@@ -56,23 +34,19 @@ $(document).ready(() => {
 
     try {
       let result = eval(expression);
-
-      if (result !== Infinity || result !== -Infinity) {
-        if (result.toString().length >= 10 && (result % 1 !== 0)) {
+      if (result !== Infinity && result !== -Infinity) {
+        if (result.toString().length >= 11) {
           result = result.toFixed(3);
-          expression = result.toString();
-        } else if (result.toString().length >= 10 && (result % 1 === 0)) {
-          result = result.toExponential(1);
-          expression = result.toString();
-        } else {
-          setTimeout(() => {
-            $(".literals").html("Infinity");
-            setTimeout(() => {
-              $(".literals").html("");
-            }, 1500);
-          }, 1);
-          expression = "";
         }
+        expression = result.toString();
+      } else {
+        setTimeout(() => {
+          $(".literals").html("Infinity");
+          setTimeout(() => {
+            $(".literals").html("");
+          }, 1500);
+        }, 1);
+        expression = "";
       }
     } catch (error) {
       setTimeout(() => {
@@ -96,14 +70,65 @@ $(document).ready(() => {
     let box = $(this).attr("class").split(" ")[0];
     let box_num = parseInt(box.replace("box", ""));
 
-    if (box_num === 1) {
-      if (expression.length) {
-        expression = expression.slice(0, expression.length - 1);
-      }
-    } else if (box_num === 19) {
-      evaluate();
-    } else {
-      expression += buttonValues[box_num];
+    switch (box_num) {
+      case 1:
+        if (expression.length)
+          expression = expression.slice(0, expression.length - 1);
+        break;
+      case 2:
+        expression += "(";
+        break;
+      case 3:
+        expression += ")";
+        break;
+      case 4:
+        expression += "÷";
+        break;
+      case 5:
+        expression += "7";
+        break;
+      case 6:
+        expression += "8";
+        break;
+      case 7:
+        expression += "9";
+        break;
+      case 8:
+        expression += "x";
+        break;
+      case 9:
+        expression += "4";
+        break;
+      case 10:
+        expression += "5";
+        break;
+      case 11:
+        expression += "6";
+        break;
+      case 12:
+        expression += "+";
+        break;
+      case 13:
+        expression += "1";
+        break;
+      case 14:
+        expression += "2";
+        break;
+      case 15:
+        expression += "3";
+        break;
+      case 16:
+        expression += "-";
+        break;
+      case 17:
+        expression += "0";
+        break;
+      case 18:
+        expression += ".";
+        break;
+      case 19:
+        evaluate();
+        break;
     }
     $(".literals").text(expression);
   });
